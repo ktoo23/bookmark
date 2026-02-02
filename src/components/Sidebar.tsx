@@ -7,7 +7,7 @@ import {
   MenuIcon,
 } from 'lucide-react';
 import type { Category } from '../types';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import { cn } from '@/lib/utils';
 import Item from './item';
@@ -30,7 +30,7 @@ export default function Sidebar({ categories }: SidebarProps) {
   const sidebarRef = useRef<HTMLElement>(null);
   const navbarRef = useRef<HTMLDivElement>(null);
   const [isResetting, setIsResetting] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(isMobile);
 
   const resetWidth = () => {
     if (sidebarRef.current && navbarRef.current) {
@@ -59,6 +59,14 @@ export default function Sidebar({ categories }: SidebarProps) {
       setTimeout(() => setIsResetting(false), 300);
     }
   };
+
+  useEffect(() => {
+    if (isMobile) {
+      collapse();
+    } else {
+      resetWidth();
+    }
+  }, [isMobile]);
 
   const handleMouseDown = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
