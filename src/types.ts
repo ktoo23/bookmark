@@ -16,8 +16,7 @@ export interface Bookmark {
   screenshot?: string;
   categoryId: string;
   isFavorite: boolean;
+  tags?: string[];
   order: number;
   createdAt: Date;
 }
-
-export type ViewMode = 'list' | 'card';

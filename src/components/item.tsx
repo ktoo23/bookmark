@@ -30,20 +30,13 @@ export default function Item({
 
     if (!categoryId) return;
 
-    const promise = new Promise((resolve, reject) => {
-      try {
-        deleteCategory(categoryId);
-        resolve(categoryId);
-      } catch (error) {
-        reject(error);
-      }
-    });
-
-    toast.promise(promise, {
-      loading: 'Deleting category...',
-      success: 'Category deleted!',
-      error: 'Failed to delete category.',
-    });
+    try {
+      deleteCategory(categoryId);
+      toast.success('카테고리가 삭제되었어요');
+    } catch (error) {
+      toast.error('카테고리 삭제에 실패했어요');
+      console.error(error);
+    }
   };
 
   return (

@@ -38,14 +38,14 @@ export default function Toolbar() {
 
   if (category?.id === 'favorites' || category?.id === 'all') {
     return (
-      <div className='pb-[11.5px] text-5xl font-bold break-words outline-none text-[#3F3F3F]'>
+      <div className='pb-[11.5px] text-5xl font-bold break-words outline-none text-[#3F3F3F] mb-5'>
         {category?.name}
       </div>
     );
   }
 
   return (
-    <div className='group relative'>
+    <div className='group relative mb-5'>
       {isEditing ? (
         <TextareaAutosize
           ref={inputRef}

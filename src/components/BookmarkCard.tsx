@@ -15,28 +15,30 @@ export default function BookmarkCard({ bookmark }: BookmarkCardProps) {
     e.preventDefault();
     e.stopPropagation();
 
-    const promise = new Promise((resolve) => {
+    try {
       deleteBookmark(bookmark.id);
-      resolve(bookmark.id);
-    });
-
-    toast.promise(promise, {
-      loading: '삭제중...',
-      success: '북마크가 삭제되었어요',
-      error: 'Failed to delete bookmark.',
-    });
+      toast.success('북마크가 삭제되었어요');
+    } catch (error) {
+      toast.error('북마크 삭제에 실패했어요');
+      console.error(error);
+    }
   };
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    toggleFavorite(bookmark.id);
-    toast.success(
-      bookmark.isFavorite
-        ? '즐겨찾기에서 해제되었어요'
-        : '즐겨찾기에 추가되었어요',
-    );
+    try {
+      toggleFavorite(bookmark.id);
+      toast.success(
+        bookmark.isFavorite
+          ? '즐겨찾기에서 해제되었어요'
+          : '즐겨찾기에 추가되었어요',
+      );
+    } catch (error) {
+      toast.error('작업에 실패했어요');
+      console.error(error);
+    }
   };
 
   return (
@@ -126,6 +128,26 @@ export default function BookmarkCard({ bookmark }: BookmarkCardProps) {
             className='w-full h-full object-cover'
             loading='lazy'
           />
+
+          {bookmark.tags && bookmark.tags.length > 0 && (
+            <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3'>
+              <div className='flex flex-wrap gap-1'>
+                {bookmark.tags.slice(0, 3).map((tag) => (
+                  <span
+                    key={tag}
+                    className='inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-white/20 text-white backdrop-blur-sm'
+                  >
+                    #{tag}
+                  </span>
+                ))}
+                {bookmark.tags.length > 3 && (
+                  <span className='text-[10px] text-muted-foreground'>
+                    +{bookmark.tags.length - 3}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </HoverCardContent>
     </HoverCard>

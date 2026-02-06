@@ -182,6 +182,7 @@ export const searchCategories = (query: string): Category[] => {
 
 export const searchBookmarks = (query: string): Bookmark[] => {
   const bookmarks = getBookmarks();
+  console.log(bookmarks);
   const lowerQuery = query.toLowerCase().trim();
 
   if (!lowerQuery) {
@@ -189,10 +190,13 @@ export const searchBookmarks = (query: string): Bookmark[] => {
   }
 
   return bookmarks.filter((bookmark) => {
-    return (
-      bookmark.title.toLowerCase().includes(lowerQuery) ||
-      bookmark.url.toLowerCase().includes(lowerQuery) ||
-      bookmark.description?.toLowerCase().includes(lowerQuery)
+    const titleMatch = bookmark.title.toLowerCase().includes(lowerQuery);
+    const urlMatch = bookmark.url.toLowerCase().includes(lowerQuery);
+    const descMatch = bookmark.description?.toLowerCase().includes(lowerQuery);
+    const tagsMatch = bookmark.tags?.some((tag) =>
+      tag.toLowerCase().includes(lowerQuery),
     );
+
+    return titleMatch || urlMatch || descMatch || tagsMatch;
   });
 };

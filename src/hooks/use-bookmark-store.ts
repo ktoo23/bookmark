@@ -1,4 +1,3 @@
-// hooks/use-bookmark-store.ts
 import { create } from 'zustand';
 import type { Bookmark, Category } from '@/types';
 import * as storage from '@/lib/storage';
